@@ -1,0 +1,42 @@
+﻿@page "/"
+
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Data;
+<SfSchedule TValue="AppointmentData" Width="100%" Height="650px">
+    <ScheduleEvents TValue="AppointmentData" ></ScheduleEvents>
+    <ScheduleViews>
+        <ScheduleView Option="View.Week"></ScheduleView>
+        <ScheduleView Option="View.Year"></ScheduleView>
+    </ScheduleViews>
+     <ScheduleEventSettings TValue="AppointmentData">
+        <SfDataManager Url="https://localhost:44309/api/scheduler" UpdateUrl="https://localhost:44309/api/update" RemoveUrl="https://localhost:44309/api/delete" InsertUrl="https://localhost:44309/api/add" Adaptor="Adaptors.UrlAdaptor"></SfDataManager>
+    </ScheduleEventSettings>
+</SfSchedule>
+
+@code {
+    public DateTime CurrentDate = new DateTime(2024, 6, 12);
+
+
+    public class AppointmentData
+    {
+       
+        public int Id { get; set; }
+        public string? Subject { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string? StartTimezone { get; set; }
+        public string? EndTimezone { get; set; }
+        public string? Location { get; set; }
+        public string? Description { get; set; }
+        public bool? IsAllDay { get; set; }
+        public bool? IsBlock { get; set; }
+        public bool? IsReadOnly { get; set; }
+        public int? FollowingID { get; set; }
+        public int? RecurrenceID { get; set; }
+        public string? RecurrenceRule { get; set; }
+        public string? RecurrenceException { get; set; }
+        public int? OwnerId { get; set; }
+        public Guid? Guid { get; set; }
+    }
+}
