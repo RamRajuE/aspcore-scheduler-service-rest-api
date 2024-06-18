@@ -22,20 +22,13 @@ namespace aspcore_scheduler_service_web_api.Controllers
             _context = context;
         }
 
-        //[HttpPost]
-        //[Route("api/[controller]")]
-        //public object Post([FromBody] DataManagerRequest DataManagerRequest)
-        //{
-        //    return new {};
-        //}
-
         [HttpPost]
         [Route("api/scheduler")]
-        public IEnumerable<ScheduleModel> GetEvents()
+        public ActionResult<IEnumerable<ScheduleModel>> GetEvents()
         {
 
-            IEnumerable<ScheduleModel> events = _context.ScheduleTableAspCore.ToList();
-            return events;
+            //IEnumerable<ScheduleModel> events = _context.ScheduleTableAspCore.ToList();
+            return Ok(_context.ScheduleTableAspCore.ToList());
         }
 
         [HttpPost]
@@ -44,7 +37,6 @@ namespace aspcore_scheduler_service_web_api.Controllers
         {
             var newEvent = new ScheduleModel
             {
-                Id = args.Value.Id,
                 Subject = args.Value.Subject,
                 StartTime = args.Value.StartTime,
                 EndTime = args.Value.EndTime,
@@ -91,73 +83,42 @@ namespace aspcore_scheduler_service_web_api.Controllers
             }
         }
 
-        [HttpPost]
-        [Route("api/schedulerCrud")]
-         public async Task Batch([FromBody] CRUDModel<ScheduleModel> args)
-        {
-            if (args.Changed.Count > 0)
-            {
-                foreach (ScheduleModel appointment in args.Changed)
-                {
-                    var entity = await _context.ScheduleTableAspCore.FindAsync(appointment.Id);
-                    if (entity != null)
-                    {
-                        _context.Entry(entity).CurrentValues.SetValues(appointment);
-                    }
-                }
-            }
-            if (args.Added.Count > 0)
-            {
-                foreach (ScheduleModel appointment in args.Added)
-                {
-                    _context.ScheduleTableAspCore.Add(appointment);
-
-                }
-            }
-            if (args.Deleted.Count > 0)
-            {
-                foreach (ScheduleModel appointment in args.Deleted)
-                {
-                    var app = _context.ScheduleTableAspCore.Find(appointment.Id);
-                    if (app != null)
-                    {
-                        _context.ScheduleTableAspCore.Remove(app);
-                    }
-                }
-            }
-            await _context.SaveChangesAsync();
-        }
-
         //[HttpPost]
-        //[Route("api/Insert")]
-        ///// <summary>
-        ///// Inserts a new data item into the data collection.
-        ///// </summary>
-        ///// <param name="CRUDModel<T>">The set of information along with new record detail which is need to be inserted.</param>
-        ///// <returns>Returns void</returns>
-        //public void Insert([FromBody] CRUDModel<ScheduleModel> Value)
+        //[Route("api/schedulerCrud")]
+        // public async Task Batch([FromBody] CRUDModel<ScheduleModel> args)
         //{
+        //    if (args.Changed.Count > 0)
+        //    {
+        //        foreach (ScheduleModel appointment in args.Changed)
+        //        {
+        //            var entity = await _context.ScheduleTableAspCore.FindAsync(appointment.Id);
+        //            if (entity != null)
+        //            {
+        //                _context.Entry(entity).CurrentValues.SetValues(appointment);
+        //            }
+        //        }
+        //    }
+        //    if (args.Added.Count > 0)
+        //    {
+        //        foreach (ScheduleModel appointment in args.Added)
+        //        {
+        //            _context.ScheduleTableAspCore.Add(appointment);
 
-        //}
-
-        ////// PUT: api/Default/5
-        //[HttpPost]
-        //[Route("api/Update")]
-
-        //public void Update([FromBody] CRUDModel<ScheduleModel> Value)
-        //{
-
-        //}
-
-
-        ////// DELETE: api/ApiWithActions/5
-        //[HttpPost]
-        //[Route("api/Delete")]
-
-        //public void Delete([FromBody] CRUDModel<ScheduleModel> Value)
-        //{
-
-        //}
+        //        }
+        //    }
+        //    if (args.Deleted.Count > 0)
+        //    {
+        //        foreach (ScheduleModel appointment in args.Deleted)
+        //        {
+        //            var app = _context.ScheduleTableAspCore.Find(appointment.Id);
+        //            if (app != null)
+        //            {
+        //                _context.ScheduleTableAspCore.Remove(app);
+        //            }
+        //        }
+        //    }
+        //    await _context.SaveChangesAsync();
+        //} 
 
     }
 
